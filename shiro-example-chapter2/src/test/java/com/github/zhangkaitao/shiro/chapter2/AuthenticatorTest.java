@@ -23,8 +23,27 @@ import org.junit.Test;
  * <p>Date: 14-1-25
  * <p>Version: 1.0
  */
+
+/**
+ * 1,3,4 Realm中间都有 zhang 123的用户，但是2中间是wang 123的用户,登录的用户是 zhang 123
+ */
 public class AuthenticatorTest {
 
+    /**
+     [main]
+     #指定securityManager的authenticator实现
+     authenticator=org.apache.shiro.authc.pam.ModularRealmAuthenticator
+     securityManager.authenticator=$authenticator
+
+     #指定securityManager.authenticator的authenticationStrategy
+     allSuccessfulStrategy=org.apache.shiro.authc.pam.AllSuccessfulStrategy
+     securityManager.authenticator.authenticationStrategy=$allSuccessfulStrategy
+
+     myRealm1=com.github.zhangkaitao.shiro.chapter2.realm.MyRealm1
+     myRealm2=com.github.zhangkaitao.shiro.chapter2.realm.MyRealm2
+     myRealm3=com.github.zhangkaitao.shiro.chapter2.realm.MyRealm3
+     securityManager.realms=$myRealm1,$myRealm3
+     */
     @Test
     public void testAllSuccessfulStrategyWithSuccess() {
         login("classpath:shiro-authenticator-all-success.ini");
@@ -35,11 +54,42 @@ public class AuthenticatorTest {
         Assert.assertEquals(2, principalCollection.asList().size());
     }
 
+    /**
+     [main]
+     #指定securityManager的authenticator实现
+     authenticator=org.apache.shiro.authc.pam.ModularRealmAuthenticator
+     securityManager.authenticator=$authenticator
+
+     #指定securityManager.authenticator的authenticationStrategy
+     allSuccessfulStrategy=org.apache.shiro.authc.pam.AllSuccessfulStrategy
+     securityManager.authenticator.authenticationStrategy=$allSuccessfulStrategy
+
+     myRealm1=com.github.zhangkaitao.shiro.chapter2.realm.MyRealm1
+     myRealm2=com.github.zhangkaitao.shiro.chapter2.realm.MyRealm2
+     myRealm3=com.github.zhangkaitao.shiro.chapter2.realm.MyRealm3
+     securityManager.realms=$myRealm1,$myRealm2
+     */
     @Test(expected = UnknownAccountException.class)
     public void testAllSuccessfulStrategyWithFail() {
         login("classpath:shiro-authenticator-all-fail.ini");
     }
 
+
+    /**
+     [main]
+     #指定securityManager的authenticator实现
+     authenticator=org.apache.shiro.authc.pam.ModularRealmAuthenticator
+     securityManager.authenticator=$authenticator
+
+     #指定securityManager.authenticator的authenticationStrategy
+     allSuccessfulStrategy=org.apache.shiro.authc.pam.AtLeastOneSuccessfulStrategy
+     securityManager.authenticator.authenticationStrategy=$allSuccessfulStrategy
+
+     myRealm1=com.github.zhangkaitao.shiro.chapter2.realm.MyRealm1
+     myRealm2=com.github.zhangkaitao.shiro.chapter2.realm.MyRealm2
+     myRealm3=com.github.zhangkaitao.shiro.chapter2.realm.MyRealm3
+     securityManager.realms=$myRealm1,$myRealm2,$myRealm3
+     */
     @Test
     public void testAtLeastOneSuccessfulStrategyWithSuccess() {
         login("classpath:shiro-authenticator-atLeastOne-success.ini");
@@ -50,6 +100,22 @@ public class AuthenticatorTest {
         Assert.assertEquals(2, principalCollection.asList().size());
     }
 
+
+    /**
+     [main]
+     #指定securityManager的authenticator实现
+     authenticator=org.apache.shiro.authc.pam.ModularRealmAuthenticator
+     securityManager.authenticator=$authenticator
+
+     #指定securityManager.authenticator的authenticationStrategy
+     allSuccessfulStrategy=org.apache.shiro.authc.pam.FirstSuccessfulStrategy
+     securityManager.authenticator.authenticationStrategy=$allSuccessfulStrategy
+
+     myRealm1=com.github.zhangkaitao.shiro.chapter2.realm.MyRealm1
+     myRealm2=com.github.zhangkaitao.shiro.chapter2.realm.MyRealm2
+     myRealm3=com.github.zhangkaitao.shiro.chapter2.realm.MyRealm3
+     securityManager.realms=$myRealm1,$myRealm2,$myRealm3
+     */
     @Test
     public void testFirstOneSuccessfulStrategyWithSuccess() {
         login("classpath:shiro-authenticator-first-success.ini");

@@ -12,17 +12,14 @@ import java.util.List;
  */
 public class MyRealm1 implements Realm {
 
-    @Override
     public String getName() {
         return "myrealm1";
     }
 
-    @Override
     public boolean supports(AuthenticationToken token) {
         return token instanceof UsernamePasswordToken; //仅支持UsernamePasswordToken类型的Token
     }
 
-    @Override
     public AuthenticationInfo getAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
 
         String username = (String)token.getPrincipal();  //得到用户名
